@@ -2,6 +2,7 @@ namespace NetCoreAuthTemplateWithJWT.Controllers;
 
 using Microsoft.AspNetCore.Mvc;
 using NetCoreAuthTemplateWithJWT.Authorization;
+using NetCoreAuthTemplateWithJWT.Entities;
 using NetCoreAuthTemplateWithJWT.Models.Users;
 using NetCoreAuthTemplateWithJWT.Services;
 
@@ -17,8 +18,8 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
-    // [AllowAnonymous]
-    [HttpPost("authenticate"), AllowAnonymous]
+    [AllowAnonymous]
+    [HttpPost("authenticate")]
     public IActionResult Authenticate(AuthenticateRequest model)
     {
         var response = _userService.Authenticate(model, ipAddress());
@@ -70,8 +71,26 @@ public class UsersController : ControllerBase
         return Ok(user.RefreshTokens);
     }
 
+    [AllowAnonymous]
+    [HttpPost("RegisterUser")]
+    public IActionResult RegisterUser(User user)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var response = _userService.RegisterUser(user);
+        // setTokenCookie(response.RefreshToken);
+        return Ok(response);
+    }
+
     // helper methods
 
+    /**
+     * Description
+     * @param {any} stringtoken
+     * @returns {any}
+        */
     private void setTokenCookie(string token)
     {
         // append cookie with refresh token to the http response
@@ -83,6 +102,10 @@ public class UsersController : ControllerBase
         Response.Cookies.Append("refreshToken", token, cookieOptions);
     }
 
+    /**
+     * Description
+     * @returns {any}
+        */
     private string ipAddress()
     {
         // get source ip address for the current request

@@ -14,6 +14,8 @@ public interface IUserService
     void RevokeToken(string token, string ipAddress);
     IEnumerable<User> GetAll();
     User GetById(int id);
+
+    (bool ok, int id) RegisterUser(User user);
 }
 
 public class UserService : IUserService
@@ -136,15 +138,15 @@ public class UserService : IUserService
     private void removeOldRefreshTokens(User user)
     {
         // remove old inactive refresh tokens from user based on TTL in app settings
-        user.RefreshTokens.RemoveAll(x => 
-            !x.IsActive && 
+        user.RefreshTokens.RemoveAll(x =>
+            !x.IsActive &&
             x.Created.AddDays(_appSettings.RefreshTokenTTL) <= DateTime.UtcNow);
     }
 
     private void revokeDescendantRefreshTokens(RefreshToken refreshToken, User user, string ipAddress, string reason)
     {
         // recursively traverse the refresh token chain and ensure all descendants are revoked
-        if(!string.IsNullOrEmpty(refreshToken.ReplacedByToken))
+        if (!string.IsNullOrEmpty(refreshToken.ReplacedByToken))
         {
             var childToken = user.RefreshTokens.SingleOrDefault(x => x.Token == refreshToken.ReplacedByToken);
             if (childToken.IsActive)
@@ -160,5 +162,31 @@ public class UserService : IUserService
         token.RevokedByIp = ipAddress;
         token.ReasonRevoked = reason;
         token.ReplacedByToken = replacedByToken;
+    }
+
+    (bool ok, int id) RegisterUser(User user)
+    {
+        bool ok = false;
+        int id = -1;
+
+        var existingUsers = _context.Users.Where(u => u.Username == user.Username);
+
+        if (!existingUsers.Any())
+        {
+            // var salt = Hasher.GenerateSalt();
+            // var hashedPassword = Hasher.HashPassword(salt, req.Password);
+            var userr = new User() { FirstName = user.FirstName, LastName = user.LastName, Username = user.Username };
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            ok = true;
+            id = user.Id;
+        }
+
+        return (ok, id);
+    }
+
+    (bool ok, int id) IUserService.RegisterUser(User user)
+    {
+        throw new NotImplementedException();
     }
 }
