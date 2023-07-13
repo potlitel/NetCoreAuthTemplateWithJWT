@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "6Ckr02FrEl5UXeLoS+oev6YSsXNCPMbsLTmZgKXwsfE=",
+  "Source": "NetCoreAuthTemplateWithJWT",
+  "BasePath": "_content/NetCoreAuthTemplateWithJWT",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
