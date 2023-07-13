@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "5tw8jq0l7UHxwV+zpa5k2X3Y/o1OklMW1Jr2kXvbsass1rZJhJ4kbPqLNAbQSo7/v6NLgv+gqPXe0IW/jv3p1A==",
+  "dgSpecHash": "o8hHdW7Bbw8A+vekr5biFf74Qe5U7hXy2CA7N9i2OsZh2SnGyMjgNr5xDb8AUbAfC2Tl++Gt5LMKm2AdJSArIg==",
   "success": true,
   "projectFilePath": "G:\\Trabajo\\GitProjects\\Real-Projects\\NetCoreAuthTemplateWithJWT\\NetCoreAuthTemplateWithJWT.csproj",
   "expectedPackageFiles": [
@@ -29,7 +29,7 @@
     "C:\\Users\\potlitel\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.32.0\\microsoft.identitymodel.tokens.6.32.0.nupkg.sha512",
     "C:\\Users\\potlitel\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\potlitel\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
-    "C:\\Users\\potlitel\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\potlitel\\.nuget\\packages\\microsoft.openapi\\1.6.5\\microsoft.openapi.1.6.5.nupkg.sha512",
     "C:\\Users\\potlitel\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\potlitel\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\potlitel\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

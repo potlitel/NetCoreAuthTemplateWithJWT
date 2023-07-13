@@ -17,8 +17,8 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
-    [AllowAnonymous]
-    [HttpPost("authenticate")]
+    // [AllowAnonymous]
+    [HttpPost("authenticate"), AllowAnonymous]
     public IActionResult Authenticate(AuthenticateRequest model)
     {
         var response = _userService.Authenticate(model, ipAddress());
