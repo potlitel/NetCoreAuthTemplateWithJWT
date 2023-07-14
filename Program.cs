@@ -68,30 +68,7 @@ using NetCoreAuthTemplateWithJWT.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// add services to DI container
-{
-    var services = builder.Services;
-    var env = builder.Environment;
-
-    // // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-    builder.Services.AddEndpointsApiExplorer();
-
-    services.AddDbContext<DataContext>();
-    services.AddCors();
-    services.AddControllers()
-        .AddJsonOptions(x => x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
-
-    // configure automapper with all automapper profiles from this assembly
-    services.AddAutoMapper(typeof(Program));
-
-    // configure strongly typed settings object
-    services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
-
-    // configure DI for application services
-    services.AddScoped<IJwtUtils, JwtUtils>();
-    services.AddScoped<IUserService, UserService>();
-}
-
+// // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 // // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
@@ -124,6 +101,27 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+// add services to DI container
+{
+    var services = builder.Services;
+    var env = builder.Environment;
+
+    services.AddDbContext<DataContext>();
+    services.AddCors();
+    services.AddControllers()
+        .AddJsonOptions(x => x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
+
+    // configure automapper with all automapper profiles from this assembly
+    services.AddAutoMapper(typeof(Program));
+
+    // configure strongly typed settings object
+    services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
+
+    // configure DI for application services
+    services.AddScoped<IJwtUtils, JwtUtils>();
+    services.AddScoped<IUserService, UserService>();
+}
+
 var app = builder.Build();
 
 // add hardcoded test user to db on startup
@@ -152,6 +150,12 @@ using (var scope = app.Services.CreateScope())
 
     // global error handler
     app.UseMiddleware<ErrorHandlerMiddleware>();
+
+    app.UseSwagger();
+    app.UseSwaggerUI(c =>
+    {
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    });
 
     // custom jwt auth middleware
     app.UseMiddleware<JwtMiddleware>();
