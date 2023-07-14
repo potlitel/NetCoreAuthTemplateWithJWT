@@ -6,7 +6,7 @@ using NetCoreAuthTemplateWithJWT.Entities;
 using NetCoreAuthTemplateWithJWT.Models.Users;
 using NetCoreAuthTemplateWithJWT.Services;
 
-[Authorize]
+// [Authorize]
 [ApiController]
 [Route("[controller]")]
 public class UsersController : ControllerBase
@@ -18,8 +18,8 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
-    [AllowAnonymous]
-    [HttpPost("authenticate")]
+    // [AllowAnonymous]
+    [HttpPost("Authenticate")]
     public IActionResult Authenticate(AuthenticateRequest model)
     {
         var response = _userService.Authenticate(model, ipAddress());
