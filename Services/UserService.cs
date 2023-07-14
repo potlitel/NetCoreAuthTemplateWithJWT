@@ -6,6 +6,7 @@ using NetCoreAuthTemplateWithJWT.Entities;
 using NetCoreAuthTemplateWithJWT.Helpers;
 using NetCoreAuthTemplateWithJWT.Models.Users;
 using NetCoreAuthTemplateWithJWT.Authorization;
+using AutoMapper;
 
 public interface IUserService
 {
@@ -14,24 +15,27 @@ public interface IUserService
     void RevokeToken(string token, string ipAddress);
     IEnumerable<User> GetAll();
     User GetById(int id);
-
-    (bool ok, int id) RegisterUser(User user);
+    void Register(RegisterRequest model);
+    // (bool ok, int id) RegisterUser(User user);
 }
 
 public class UserService : IUserService
 {
     private DataContext _context;
     private IJwtUtils _jwtUtils;
+
+    private readonly IMapper _mapper;
     private readonly AppSettings _appSettings;
 
     public UserService(
         DataContext context,
         IJwtUtils jwtUtils,
-        IOptions<AppSettings> appSettings)
+        IOptions<AppSettings> appSettings, IMapper mapper)
     {
         _context = context;
         _jwtUtils = jwtUtils;
         _appSettings = appSettings.Value;
+        _mapper = mapper;
     }
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
@@ -185,8 +189,20 @@ public class UserService : IUserService
         return (ok, id);
     }
 
-    (bool ok, int id) IUserService.RegisterUser(User user)
+    public void Register(RegisterRequest model)
     {
-        throw new NotImplementedException();
+        // validate
+        if (_context.Users.Any(x => x.Username == model.Username))
+            throw new AppException("Username '" + model.Username + "' is already taken");
+
+        // map model to new user object
+        var user = _mapper.Map<User>(model);
+
+        // hash password
+        user.PasswordHash = BCrypt.HashPassword(model.Password);
+
+        // save user
+        _context.Users.Add(user);
+        _context.SaveChanges();
     }
 }

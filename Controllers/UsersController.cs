@@ -28,6 +28,14 @@ public class UsersController : ControllerBase
     }
 
     [AllowAnonymous]
+    [HttpPost("register")]
+    public IActionResult Register(RegisterRequest model)
+    {
+        _userService.Register(model);
+        return Ok(new { message = "Registration successful" });
+    }
+
+    [AllowAnonymous]
     [HttpPost("refresh-token")]
     public IActionResult RefreshToken()
     {
@@ -71,18 +79,18 @@ public class UsersController : ControllerBase
         return Ok(user.RefreshTokens);
     }
 
-    [AllowAnonymous]
-    [HttpPost("registerUser")]
-    public IActionResult RegisterUser(User user)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        var response = _userService.RegisterUser(user);
-        // setTokenCookie(response.RefreshToken);
-        return Ok(response);
-    }
+    // [AllowAnonymous]
+    // [HttpPost("registerUser")]
+    // public IActionResult RegisterUser(User user)
+    // {
+    //     if (!ModelState.IsValid)
+    //     {
+    //         return BadRequest(ModelState);
+    //     }
+    //     var response = _userService.RegisterUser(user);
+    //     // setTokenCookie(response.RefreshToken);
+    //     return Ok(response);
+    // }
 
     // helper methods
 

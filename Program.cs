@@ -60,6 +60,7 @@
 
 // app.Run();
 using System.Text.Json.Serialization;
+using Microsoft.OpenApi.Models;
 using NetCoreAuthTemplateWithJWT.Authorization;
 using NetCoreAuthTemplateWithJWT.Entities;
 using NetCoreAuthTemplateWithJWT.Helpers;
@@ -80,6 +81,9 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddControllers()
         .AddJsonOptions(x => x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
 
+    // configure automapper with all automapper profiles from this assembly
+    services.AddAutoMapper(typeof(Program));
+
     // configure strongly typed settings object
     services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
@@ -87,6 +91,38 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddScoped<IJwtUtils, JwtUtils>();
     services.AddScoped<IUserService, UserService>();
 }
+
+// // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+
+// builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(option =>
+{
+    option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "Please enter a valid token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "Bearer"
+    });
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type=ReferenceType.SecurityScheme,
+                    Id="Bearer"
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
+});
 
 var app = builder.Build();
 

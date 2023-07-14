@@ -43,3 +43,5 @@ G:\Trabajo\GitProjects\Real-Projects\NetCoreAuthTemplateWithJWT\bin\Debug\net7.0
 G:\Trabajo\GitProjects\Real-Projects\NetCoreAuthTemplateWithJWT\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Abstractions.dll
 G:\Trabajo\GitProjects\Real-Projects\NetCoreAuthTemplateWithJWT\bin\Debug\net7.0\BCrypt.Net-Next.dll
 G:\Trabajo\GitProjects\Real-Projects\NetCoreAuthTemplateWithJWT\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.InMemory.dll
+G:\Trabajo\GitProjects\Real-Projects\NetCoreAuthTemplateWithJWT\bin\Debug\net7.0\AutoMapper.dll
+G:\Trabajo\GitProjects\Real-Projects\NetCoreAuthTemplateWithJWT\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
