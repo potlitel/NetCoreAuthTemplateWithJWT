@@ -6,7 +6,7 @@ using NetCoreAuthTemplateWithJWT.Entities;
 using NetCoreAuthTemplateWithJWT.Models.Users;
 using NetCoreAuthTemplateWithJWT.Services;
 
-// [Authorize]
+[Authorize]
 [ApiController]
 [Route("[controller]")]
 public class UsersController : ControllerBase
@@ -18,8 +18,8 @@ public class UsersController : ControllerBase
         _userService = userService;
     }
 
-    // [AllowAnonymous]
-    [HttpPost("Authenticate")]
+    [AllowAnonymous]
+    [HttpPost("authenticate")]
     public IActionResult Authenticate(AuthenticateRequest model)
     {
         var response = _userService.Authenticate(model, ipAddress());
@@ -72,7 +72,7 @@ public class UsersController : ControllerBase
     }
 
     [AllowAnonymous]
-    [HttpPost("RegisterUser")]
+    [HttpPost("registerUser")]
     public IActionResult RegisterUser(User user)
     {
         if (!ModelState.IsValid)
